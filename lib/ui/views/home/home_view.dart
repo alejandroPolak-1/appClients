@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
+import 'package:tots_stacked_app/app/app.locator.dart';
 import 'package:tots_stacked_app/ui/common/app_colors.dart';
 import 'package:tots_stacked_app/ui/common/ui_helpers.dart';
 import 'package:tots_stacked_app/ui/common/ui_style.dart';
@@ -96,13 +98,51 @@ class HomeView extends StackedView<HomeViewModel> {
                                 child: ListTile(
                                   leading: CircleAvatar(
                                     backgroundImage: NetworkImage(
-                                        "${client?.photo}"), // Cambia esto por la URL real
+                                        "${client.photo}"), // Cambia esto por la URL real
                                   ),
-                                  title: Text("${client?.firstname}"),
-                                  subtitle: Text("${client?.email}"),
-                                  trailing: IconButton(
-                                    icon: const Icon(Icons.more_vert),
-                                    onPressed: () {},
+                                  title: Text("${client.firstname}"),
+                                  subtitle: Text("${client.email}"),
+                                  trailing: Theme(
+                                    data: Theme.of(context).copyWith(
+                                      popupMenuTheme: const PopupMenuThemeData(
+                                        color:
+                                            kcPopupBackgroundColor, // Fondo negro para el popup
+                                        textStyle: TextStyle(
+                                            color:
+                                                kcPopupText), // Texto en blanco
+                                      ),
+                                    ),
+                                    child: PopupMenuButton<String>(
+                                      icon: const Icon(Icons.more_vert,
+                                          color:
+                                              kcPopupBackgroundColor), // Icono en blanco
+                                      onSelected: (String value) {
+                                        switch (value) {
+                                          case "Edit":
+                                            viewModel
+                                                .showDialogEditClient(client);
+                                            break;
+                                          default:
+                                        }
+                                      },
+                                      itemBuilder: (BuildContext context) {
+                                        return [
+                                          const PopupMenuItem<String>(
+                                            value: 'Edit',
+                                            child: Row(children: [
+                                              Icon(
+                                                Icons.edit,
+                                                color: kcPopupText,
+                                              ),
+                                              horizontalSpaceTiny,
+                                              Text('Edit',
+                                                  style: TextStyle(
+                                                      color: kcPopupText))
+                                            ]),
+                                          ),
+                                        ];
+                                      },
+                                    ),
                                   ),
                                 ),
                               );

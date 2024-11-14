@@ -1,12 +1,14 @@
 // login_response.dart
 
-class Login {
+import 'package:equatable/equatable.dart';
+
+class Login extends Equatable {
   final int id;
   final String email;
   final String tokenType;
   final String accessToken;
 
-  Login({
+  const Login({
     required this.id,
     required this.email,
     required this.tokenType,
@@ -32,4 +34,7 @@ class Login {
       'access_token': accessToken,
     };
   }
+
+  @override
+  List<Object?> get props => [id, email, tokenType, accessToken];
 }

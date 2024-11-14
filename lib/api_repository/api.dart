@@ -5,7 +5,6 @@ class API {
   static late API _instance;
   static bool _initialized = false;
   late DioController _httpController;
-  
 
   API._();
 
@@ -25,14 +24,15 @@ class API {
   void setHttpClient(Dio httpClient) =>
       _httpController.setHttpClient(httpClient);
 
-
-
   void setHeaders(Map<String, String> headers) =>
       _httpController.setHeaders(headers);
 
-  // void setToken(String token) {
-  //   _httpController.setHeaders({'Authorization': 'Bearer $token'});
-  // }
+  void setToken(String? token) {
+    if (token == null) {
+      return;
+    }
+    _httpController.setHeaders({'Authorization': 'Bearer $token'});
+  }
 
   Future<Response> get(
     String endpoint, {

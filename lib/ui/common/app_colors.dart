@@ -9,3 +9,5 @@ const Color kcButtonBackgroundColor = Color(0xFF000000);
 const Color kcButtonTextColor = Color(0xFFFFFFFF);
 const Color kcVeryLightGrey = Color(0xFFE3E3E3);
 const Color kcBackgroundColor = Color(0xFFFFFFFF);
+const Color kcPopupBackgroundColor = Color(0xFF000000);
+const Color kcPopupText = Color(0xFFFFFFFF);

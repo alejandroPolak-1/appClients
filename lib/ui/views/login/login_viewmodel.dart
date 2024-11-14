@@ -1,16 +1,26 @@
+import 'dart:convert';
+
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:tots_stacked_app/api_repository/_api_repository.dart';
 
 import 'package:tots_stacked_app/api_repository/params/_params.dart';
+import 'package:tots_stacked_app/app/app.dialogs.dart';
 import 'package:tots_stacked_app/app/app.locator.dart';
 import 'package:tots_stacked_app/app/app.router.dart';
-import 'package:tots_stacked_app/services/api_service.dart';
+import 'package:tots_stacked_app/services/login_service_service.dart';
+import 'package:tots_stacked_app/services/secure_storage_service.dart';
 import 'package:tots_stacked_app/ui/views/login/login_view.form.dart';
 import 'package:tots_stacked_app/utils/validators/text_input_validators.dart';
 
 class LoginViewModel extends FormViewModel {
-  final _apiService = locator<ApiService>();
+  final _apiService = locator<LoginServiceService>();
   final _navigationService = locator<NavigationService>();
+  final _dialogService = locator<DialogService>();
+
+  // final SecureStorageService _storageService = locator<SecureStorageService>();
+  final SecureStorageService _storageService = SecureStorageService();
+
   bool isLoggedIn = false;
   bool firstLogin = true;
 
@@ -58,10 +68,9 @@ class LoginViewModel extends FormViewModel {
   }
 
   Future<void> login({required String email, required String password}) async {
-
     firstLogin = false;
     rebuildUi();
-    
+
     if (!isFormValid) {
       return;
     }
@@ -69,14 +78,37 @@ class LoginViewModel extends FormViewModel {
     final response = await _apiService
         .postLogin(LoginBody(email: email, password: password));
 
-    if (response == true) {
+    response.fold((l) {
+
+        _dialogService.showDialog(
+          title: 'Error de autenticación',
+          description:
+              "No se pudo completar el inicio de sesión. \n Por favor, revisa tus credenciales y vuelve a intentarlo.",
+        );
+    
+    }, (r) {
+      loginGetStorageData(r);
       isLoggedIn = true;
       _navigationService.replaceWithHomeView();
-      return;
-    }
+      passwordValidationMessage!;
+      mailValidationMessage!;
+    });
 
-    passwordValidationMessage!;
-    mailValidationMessage!;
     return;
+  }
+
+  Future<void> loginGetStorageData(Login r) async {
+    API.getInstance().setToken(r.accessToken.toString());
+
+    // // Configurar los encabezados
+    // Map<String, String> headers = {
+    //   "accessToken": r.accessToken.toString(),
+    // };
+
+    // Guardar el token
+    _storageService.saveToken(r.accessToken.toString());
+
+    // // Guardar los encabezados
+    // await _storageService.write("headers", json.encode(headers));
   }
 }

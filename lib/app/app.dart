@@ -8,6 +8,8 @@ import 'package:tots_stacked_app/ui/views/login/login_view.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tots_stacked_app/services/api_service.dart';
 import 'package:tots_stacked_app/services/client_service.dart';
+import 'package:tots_stacked_app/services/secure_storage_service.dart';
+import 'package:tots_stacked_app/services/login_service_service.dart';
 // @stacked-import
 
 @StackedApp(
@@ -23,6 +25,8 @@ import 'package:tots_stacked_app/services/client_service.dart';
     LazySingleton(classType: NavigationService),
     LazySingleton(classType: ApiService),
     LazySingleton(classType: ClientService),
+    LazySingleton(classType: SecureStorageService),
+    LazySingleton(classType: LoginServiceService),
 // @stacked-service
   ],
   bottomsheets: [

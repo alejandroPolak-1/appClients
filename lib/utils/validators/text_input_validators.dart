@@ -20,15 +20,15 @@ class TextInputValidators {
       return 'La contraseña no puede estar vacía';
     }
 
-    if (!RegExp(r'[A-Z]').hasMatch(value)) {
-      return 'La contraseña debe contener al menos una letra mayúscula';
-    }
-    if (!RegExp(r'[a-z]').hasMatch(value)) {
-      return 'La contraseña debe contener al menos una letra minúscula';
-    }
-    if (!RegExp(r'[0-9]').hasMatch(value)) {
-      return 'La contraseña debe contener al menos un número';
-    }
+    // if (!RegExp(r'[A-Z]').hasMatch(value)) {
+    //   return 'La contraseña debe contener al menos una letra mayúscula';
+    // }
+    // if (!RegExp(r'[a-z]').hasMatch(value)) {
+    //   return 'La contraseña debe contener al menos una letra minúscula';
+    // }
+    // if (!RegExp(r'[0-9]').hasMatch(value)) {
+    //   return 'La contraseña debe contener al menos un número';
+    // }
 
     return null;
   }

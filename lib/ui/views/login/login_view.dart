@@ -67,10 +67,9 @@ class LoginView extends StackedView<LoginViewModel> with $LoginView {
                         decoration: InputDecoration(
                           labelText: 'Mail',
                           labelStyle: UiStyle.textFormStyle,
-                          errorText: viewModel.firstLogin 
-                                 ?  null
-                                 : viewModel.mailValidationMessage,
-                              
+                          errorText: viewModel.firstLogin
+                              ? null
+                              : viewModel.mailValidationMessage,
                         ),
                       ),
                       verticalSpaceSmall,
@@ -83,10 +82,9 @@ class LoginView extends StackedView<LoginViewModel> with $LoginView {
                         decoration: InputDecoration(
                           labelText: 'Password',
                           labelStyle: _textFormStyle,
-                         errorText: viewModel.firstLogin 
-                                 ?  null
-                                 : viewModel.passwordValidationMessage,
-                              
+                          errorText: viewModel.firstLogin
+                              ? null
+                              : viewModel.passwordValidationMessage,
                           suffixIcon: IconButton(
                             icon: viewModel.isObscurePassword
                                 ? Icon(Icons.visibility,
@@ -104,7 +102,7 @@ class LoginView extends StackedView<LoginViewModel> with $LoginView {
                 Custombutton(
                   label: 'LOG IN',
                   onPressed: () async {
-                     viewModel.validateForm();
+                    viewModel.validateForm();
                     await viewModel.login(
                       email: mailController.text,
                       password: passwordController.text,
