@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:tots_stacked_app/ui/common/app_colors.dart';
+import 'package:tots_stacked_app/ui/common/app_strings.dart';
 import 'package:tots_stacked_app/ui/common/ui_helpers.dart';
 import 'package:tots_stacked_app/ui/common/ui_style.dart';
 
@@ -13,17 +14,17 @@ import 'login_viewmodel.dart';
 import 'package:stacked/stacked_annotations.dart';
 
 @FormView(fields: [
-  FormTextField(name: 'Mail', validator: TextInputValidators.validateMailText),
   FormTextField(
-      name: 'Password', validator: TextInputValidators.validatePasswordText),
+      name: ksLoginLabelMail, validator: TextInputValidators.validateMailText),
+  FormTextField(
+      name: ksLoginLabelPassword,
+      validator: TextInputValidators.validatePasswordText),
 ])
 class LoginView extends StackedView<LoginViewModel> with $LoginView {
   const LoginView({Key? key}) : super(key: key);
 
   @override
   void onViewModelReady(LoginViewModel viewModel) {
-    // viewModel.setPasswordValidationMessage("");
-    // viewModel.setMailValidationMessage("");
     syncFormWithViewModel(viewModel);
   }
 
@@ -55,7 +56,7 @@ class LoginView extends StackedView<LoginViewModel> with $LoginView {
                       verticalSpaceMedium,
                       const Center(
                           child: Text(
-                        "LOG IN",
+                        ksLoginTitle,
                         style: UiStyle.textStyle12Bold,
                       )),
                       verticalSpaceSmall,
@@ -65,7 +66,7 @@ class LoginView extends StackedView<LoginViewModel> with $LoginView {
                         // onChanged: (value) =>
                         //     viewModel.setMailValidationMessage(null),
                         decoration: InputDecoration(
-                          labelText: 'Mail',
+                          labelText: ksLoginLabelMail,
                           labelStyle: UiStyle.textFormStyle,
                           errorText: viewModel.firstLogin
                               ? null
@@ -80,7 +81,7 @@ class LoginView extends StackedView<LoginViewModel> with $LoginView {
                         // onChanged: (value) =>
                         //     viewModel.setPasswordValidationMessage(null),
                         decoration: InputDecoration(
-                          labelText: 'Password',
+                          labelText: ksLoginLabelPassword,
                           labelStyle: _textFormStyle,
                           errorText: viewModel.firstLogin
                               ? null
@@ -100,7 +101,7 @@ class LoginView extends StackedView<LoginViewModel> with $LoginView {
                 ),
                 verticalSpaceLarge,
                 Custombutton(
-                  label: 'LOG IN',
+                  label: ksLoginButton,
                   onPressed: () async {
                     viewModel.validateForm();
                     await viewModel.login(

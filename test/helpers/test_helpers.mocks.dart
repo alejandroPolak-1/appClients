@@ -16,6 +16,7 @@ import 'package:stacked_services/stacked_services.dart' as _i6;
 import 'package:tots_stacked_app/api_repository/_api_repository.dart' as _i2;
 import 'package:tots_stacked_app/services/api_service.dart' as _i11;
 import 'package:tots_stacked_app/services/client_service.dart' as _i12;
+import 'package:tots_stacked_app/services/image_picker_service.dart' as _i15;
 import 'package:tots_stacked_app/services/login_service_service.dart' as _i14;
 import 'package:tots_stacked_app/services/secure_storage_service.dart' as _i13;
 
@@ -969,3 +970,9 @@ class MockLoginServiceService extends _i1.Mock
         )),
       ) as _i9.Future<_i5.Either<_i2.Failure, _i2.Login>>);
 }
+
+/// A class which mocks [ImagePickerService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockImagePickerService extends _i1.Mock
+    implements _i15.ImagePickerService {}

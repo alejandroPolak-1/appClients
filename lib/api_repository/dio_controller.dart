@@ -34,7 +34,6 @@ class DioController {
   }) async {
     setHeaders({'Content-Type': contentType});
     setHeaders({'Authorization': 'Bearer $accessToken'});
-
   }
 
   String _baseUrl(String? customBaseUrl) => customBaseUrl ?? _defaultBaseUrl;

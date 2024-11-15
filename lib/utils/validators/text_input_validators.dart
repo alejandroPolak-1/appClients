@@ -9,7 +9,7 @@ class TextInputValidators {
     }
 
     if (!emailRegExp.hasMatch(value)) {
-      return 'Ingresa un formato de correo válido';
+      return 'Please enter a valid email format';
     }
 
     return null;
@@ -17,7 +17,7 @@ class TextInputValidators {
 
   static String? validatePasswordText(String? value) {
     if (value == null || value.isEmpty) {
-      return 'La contraseña no puede estar vacía';
+      return 'Password cannot be empty';
     }
 
     // if (!RegExp(r'[A-Z]').hasMatch(value)) {
@@ -30,6 +30,20 @@ class TextInputValidators {
     //   return 'La contraseña debe contener al menos un número';
     // }
 
+    return null;
+  }
+
+  static String? validateFirstNameText(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'The name cannot be empty';
+    }
+    return null;
+  }
+
+  static String? validateLastNameText(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'The name cannot be empty';
+    }
     return null;
   }
 }

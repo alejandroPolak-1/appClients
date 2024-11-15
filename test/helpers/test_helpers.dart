@@ -6,6 +6,7 @@ import 'package:tots_stacked_app/services/api_service.dart';
 import 'package:tots_stacked_app/services/client_service.dart';
 import 'package:tots_stacked_app/services/secure_storage_service.dart';
 import 'package:tots_stacked_app/services/login_service_service.dart';
+import 'package:tots_stacked_app/services/image_picker_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -18,6 +19,7 @@ import 'test_helpers.mocks.dart';
   MockSpec<ClientService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<SecureStorageService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<LoginServiceService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<ImagePickerService>(onMissingStub: OnMissingStub.returnDefault),
 // @stacked-mock-spec
 ])
 void registerServices() {
@@ -28,6 +30,7 @@ void registerServices() {
   getAndRegisterClientService();
   getAndRegisterSecureStorageService();
   getAndRegisterLoginServiceService();
+  getAndRegisterImagePickerService();
 // @stacked-mock-register
 }
 
@@ -106,6 +109,13 @@ MockLoginServiceService getAndRegisterLoginServiceService() {
   _removeRegistrationIfExists<LoginServiceService>();
   final service = MockLoginServiceService();
   locator.registerSingleton<LoginServiceService>(service);
+  return service;
+}
+
+MockImagePickerService getAndRegisterImagePickerService() {
+  _removeRegistrationIfExists<ImagePickerService>();
+  final service = MockImagePickerService();
+  locator.registerSingleton<ImagePickerService>(service);
   return service;
 }
 // @stacked-mock-create

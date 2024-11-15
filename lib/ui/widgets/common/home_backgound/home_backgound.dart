@@ -17,7 +17,7 @@ class HomeBackgound extends StackedView<HomeBackgoundModel> {
     return Container(
       height: MediaQuery.sizeOf(context).height,
       width: MediaQuery.sizeOf(context).width,
-      color: kcBackgroundColor,
+      color: kcBackgroundPrimaryColor,
       child: CustomPaint(
         painter: _BackgroundPainter(),
       ),
@@ -38,7 +38,7 @@ class _BackgroundPainter extends CustomPainter {
       ..style = PaintingStyle.fill
       ..shader = const RadialGradient(
         colors: [
-          kcPrimaryColor, // Centro con alta opacidad
+          kcBackgroundSecundaryColor, // Centro con alta opacidad
 
           Color.fromARGB(0, 255, 255, 255), // Centro con alta opacidad
         ],
@@ -62,7 +62,7 @@ class _BackgroundPainter extends CustomPainter {
       ..style = PaintingStyle.fill
       ..shader = RadialGradient(
         colors: [
-          kcPrimaryColor.withOpacity(0.33),
+          kcBackgroundSecundaryColor.withOpacity(0.33),
           const Color.fromARGB(0, 255, 255, 255),
         ],
         stops: const [0.2, 0.8],
@@ -85,7 +85,7 @@ class _BackgroundPainter extends CustomPainter {
       ..style = PaintingStyle.fill
       ..shader = RadialGradient(
         colors: [
-          kcPrimaryColor.withOpacity(0.30),
+          kcBackgroundSecundaryColor.withOpacity(0.30),
           const Color.fromARGB(0, 255, 255, 255),
         ],
         stops: const [0.4, 0.7],

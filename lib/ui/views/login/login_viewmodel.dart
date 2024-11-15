@@ -1,11 +1,7 @@
-import 'dart:convert';
-
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tots_stacked_app/api_repository/_api_repository.dart';
 
-import 'package:tots_stacked_app/api_repository/params/_params.dart';
-import 'package:tots_stacked_app/app/app.dialogs.dart';
 import 'package:tots_stacked_app/app/app.locator.dart';
 import 'package:tots_stacked_app/app/app.router.dart';
 import 'package:tots_stacked_app/services/login_service_service.dart';
@@ -79,13 +75,11 @@ class LoginViewModel extends FormViewModel {
         .postLogin(LoginBody(email: email, password: password));
 
     response.fold((l) {
-
-        _dialogService.showDialog(
-          title: 'Error de autenticación',
-          description:
-              "No se pudo completar el inicio de sesión. \n Por favor, revisa tus credenciales y vuelve a intentarlo.",
-        );
-    
+      _dialogService.showDialog(
+        title: 'Error de autenticación',
+        description:
+            "No se pudo completar el inicio de sesión. \n Por favor, revisa tus credenciales y vuelve a intentarlo.",
+      );
     }, (r) {
       loginGetStorageData(r);
       isLoggedIn = true;

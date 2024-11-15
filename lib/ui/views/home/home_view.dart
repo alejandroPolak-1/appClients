@@ -3,6 +3,7 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tots_stacked_app/app/app.locator.dart';
 import 'package:tots_stacked_app/ui/common/app_colors.dart';
+import 'package:tots_stacked_app/ui/common/app_strings.dart';
 import 'package:tots_stacked_app/ui/common/ui_helpers.dart';
 import 'package:tots_stacked_app/ui/common/ui_style.dart';
 import 'package:tots_stacked_app/ui/widgets/common/custombutton/custombutton.dart';
@@ -41,7 +42,7 @@ class HomeView extends StackedView<HomeViewModel> {
                       verticalSpaceSmall,
                       const Row(
                         children: [
-                          Text("Client", style: UiStyle.textStyle20Bold),
+                          Text(ksHomeTitleText, style: UiStyle.textStyle20Bold),
                         ],
                       ),
                       verticalSpaceSmall,
@@ -51,7 +52,7 @@ class HomeView extends StackedView<HomeViewModel> {
                           Expanded(
                             child: TextField(
                               decoration: InputDecoration(
-                                hintText: 'Search...',
+                                hintText: ksSearchHintText,
 
                                 prefixIcon: Icon(Icons.search),
                                 border: OutlineInputBorder(
@@ -68,7 +69,7 @@ class HomeView extends StackedView<HomeViewModel> {
                           ),
                           horizontalSpaceSmall,
                           Custombutton(
-                              label: 'ADD NEW',
+                              label: ksAddNewClienteButtonText,
                               onPressed: () {},
                               widthFactor: 0.15,
                               height: 40),
@@ -118,7 +119,7 @@ class HomeView extends StackedView<HomeViewModel> {
                                               kcPopupBackgroundColor), // Icono en blanco
                                       onSelected: (String value) {
                                         switch (value) {
-                                          case "Edit":
+                                          case ksEditButtonText:
                                             viewModel
                                                 .showDialogEditClient(client);
                                             break;
@@ -128,14 +129,14 @@ class HomeView extends StackedView<HomeViewModel> {
                                       itemBuilder: (BuildContext context) {
                                         return [
                                           const PopupMenuItem<String>(
-                                            value: 'Edit',
+                                            value: ksEditButtonText,
                                             child: Row(children: [
                                               Icon(
                                                 Icons.edit,
                                                 color: kcPopupText,
                                               ),
                                               horizontalSpaceTiny,
-                                              Text('Edit',
+                                              Text(ksEditButtonText,
                                                   style: TextStyle(
                                                       color: kcPopupText))
                                             ]),
@@ -153,7 +154,7 @@ class HomeView extends StackedView<HomeViewModel> {
                   // Load More button
 
                   Custombutton(
-                    label: 'LOAD MORE',
+                    label: ksLoadMoreClientButtonText,
                     onPressed: () {},
                   ),
 
