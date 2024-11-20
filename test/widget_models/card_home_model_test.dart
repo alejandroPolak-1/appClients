@@ -4,7 +4,7 @@ import 'package:tots_stacked_app/app/app.locator.dart';
 import '../helpers/test_helpers.dart';
 
 void main() {
-  group('HomeBackgoundModel Tests -', () {
+  group('CardHomeModel Tests -', () {
     setUp(() => registerServices());
     tearDown(() => locator.reset());
   });

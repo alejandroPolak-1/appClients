@@ -2,7 +2,6 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tots_stacked_app/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'package:tots_stacked_app/services/api_service.dart';
 import 'package:tots_stacked_app/services/client_service.dart';
 import 'package:tots_stacked_app/services/secure_storage_service.dart';
 import 'package:tots_stacked_app/services/login_service_service.dart';
@@ -15,7 +14,6 @@ import 'test_helpers.mocks.dart';
   MockSpec<NavigationService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<BottomSheetService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<DialogService>(onMissingStub: OnMissingStub.returnDefault),
-  MockSpec<ApiService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<ClientService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<SecureStorageService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<LoginServiceService>(onMissingStub: OnMissingStub.returnDefault),
@@ -26,7 +24,6 @@ void registerServices() {
   getAndRegisterNavigationService();
   getAndRegisterBottomSheetService();
   getAndRegisterDialogService();
-  getAndRegisterApiService();
   getAndRegisterClientService();
   getAndRegisterSecureStorageService();
   getAndRegisterLoginServiceService();
@@ -84,13 +81,6 @@ MockDialogService getAndRegisterDialogService() {
   return service;
 }
 
-MockApiService getAndRegisterApiService() {
-  _removeRegistrationIfExists<ApiService>();
-  final service = MockApiService();
-  locator.registerSingleton<ApiService>(service);
-  return service;
-}
-
 MockClientService getAndRegisterClientService() {
   _removeRegistrationIfExists<ClientService>();
   final service = MockClientService();
@@ -118,6 +108,7 @@ MockImagePickerService getAndRegisterImagePickerService() {
   locator.registerSingleton<ImagePickerService>(service);
   return service;
 }
+
 // @stacked-mock-create
 
 void _removeRegistrationIfExists<T extends Object>() {

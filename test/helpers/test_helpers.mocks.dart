@@ -6,19 +6,31 @@
 import 'dart:async' as _i9;
 import 'dart:ui' as _i10;
 
-import 'package:dartz/dartz.dart' as _i5;
-import 'package:encrypt/encrypt.dart' as _i4;
+import 'package:dartz/dartz.dart' as _i3;
+import 'package:encrypt/encrypt.dart' as _i5;
 import 'package:flutter/material.dart' as _i8;
-import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i3;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i4;
+import 'package:image_picker/image_picker.dart' as _i21;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i7;
 import 'package:stacked_services/stacked_services.dart' as _i6;
-import 'package:tots_stacked_app/api_repository/_api_repository.dart' as _i2;
-import 'package:tots_stacked_app/services/api_service.dart' as _i11;
-import 'package:tots_stacked_app/services/client_service.dart' as _i12;
-import 'package:tots_stacked_app/services/image_picker_service.dart' as _i15;
-import 'package:tots_stacked_app/services/login_service_service.dart' as _i14;
-import 'package:tots_stacked_app/services/secure_storage_service.dart' as _i13;
+import 'package:tots_stacked_app/api_repository/_api_repository.dart' as _i19;
+import 'package:tots_stacked_app/api_repository/models/client_model.dart'
+    as _i2;
+import 'package:tots_stacked_app/api_repository/models/response_create_cliente.dart'
+    as _i15;
+import 'package:tots_stacked_app/api_repository/models/response_update_cliente.dart'
+    as _i13;
+import 'package:tots_stacked_app/api_repository/params/body/client_body.dart'
+    as _i16;
+import 'package:tots_stacked_app/api_repository/params/clients_params.dart'
+    as _i14;
+import 'package:tots_stacked_app/api_repository/uses_cases/use_case_behavior/failure_error.dart'
+    as _i12;
+import 'package:tots_stacked_app/services/client_service.dart' as _i11;
+import 'package:tots_stacked_app/services/image_picker_service.dart' as _i20;
+import 'package:tots_stacked_app/services/login_service_service.dart' as _i18;
+import 'package:tots_stacked_app/services/secure_storage_service.dart' as _i17;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -43,9 +55,8 @@ class _FakeClient_0 extends _i1.SmartFake implements _i2.Client {
         );
 }
 
-class _FakeFlutterSecureStorage_1 extends _i1.SmartFake
-    implements _i3.FlutterSecureStorage {
-  _FakeFlutterSecureStorage_1(
+class _FakeEither_1<L, R> extends _i1.SmartFake implements _i3.Either<L, R> {
+  _FakeEither_1(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -54,8 +65,9 @@ class _FakeFlutterSecureStorage_1 extends _i1.SmartFake
         );
 }
 
-class _FakeEncrypter_2 extends _i1.SmartFake implements _i4.Encrypter {
-  _FakeEncrypter_2(
+class _FakeFlutterSecureStorage_2 extends _i1.SmartFake
+    implements _i4.FlutterSecureStorage {
+  _FakeFlutterSecureStorage_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -64,8 +76,8 @@ class _FakeEncrypter_2 extends _i1.SmartFake implements _i4.Encrypter {
         );
 }
 
-class _FakeIV_3 extends _i1.SmartFake implements _i4.IV {
-  _FakeIV_3(
+class _FakeEncrypter_3 extends _i1.SmartFake implements _i5.Encrypter {
+  _FakeEncrypter_3(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -74,8 +86,8 @@ class _FakeIV_3 extends _i1.SmartFake implements _i4.IV {
         );
 }
 
-class _FakeEither_4<L, R> extends _i1.SmartFake implements _i5.Either<L, R> {
-  _FakeEither_4(
+class _FakeIV_4 extends _i1.SmartFake implements _i5.IV {
+  _FakeIV_4(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -617,6 +629,8 @@ class MockDialogService extends _i1.Mock implements _i6.DialogService {
     String? buttonTitle = r'Ok',
     _i10.Color? buttonTitleColor,
     bool? barrierDismissible = false,
+    _i8.RouteSettings? routeSettings,
+    _i8.GlobalKey<_i8.NavigatorState>? navigatorKey,
     _i6.DialogPlatform? dialogPlatform,
   }) =>
       (super.noSuchMethod(
@@ -631,6 +645,8 @@ class MockDialogService extends _i1.Mock implements _i6.DialogService {
             #buttonTitle: buttonTitle,
             #buttonTitleColor: buttonTitleColor,
             #barrierDismissible: barrierDismissible,
+            #routeSettings: routeSettings,
+            #navigatorKey: navigatorKey,
             #dialogPlatform: dialogPlatform,
           },
         ),
@@ -657,6 +673,9 @@ class MockDialogService extends _i1.Mock implements _i6.DialogService {
     bool? barrierDismissible = false,
     String? barrierLabel = r'',
     bool? useSafeArea = true,
+    _i8.RouteSettings? routeSettings,
+    _i8.GlobalKey<_i8.NavigatorState>? navigatorKey,
+    _i8.RouteTransitionsBuilder? transitionBuilder,
     dynamic customData,
     R? data,
   }) =>
@@ -681,6 +700,9 @@ class MockDialogService extends _i1.Mock implements _i6.DialogService {
             #barrierDismissible: barrierDismissible,
             #barrierLabel: barrierLabel,
             #useSafeArea: useSafeArea,
+            #routeSettings: routeSettings,
+            #navigatorKey: navigatorKey,
+            #transitionBuilder: transitionBuilder,
             #customData: customData,
             #data: data,
           },
@@ -698,6 +720,7 @@ class MockDialogService extends _i1.Mock implements _i6.DialogService {
     String? confirmationTitle = r'Ok',
     _i10.Color? confirmationTitleColor,
     bool? barrierDismissible = false,
+    _i8.RouteSettings? routeSettings,
     _i6.DialogPlatform? dialogPlatform,
   }) =>
       (super.noSuchMethod(
@@ -712,6 +735,7 @@ class MockDialogService extends _i1.Mock implements _i6.DialogService {
             #confirmationTitle: confirmationTitle,
             #confirmationTitleColor: confirmationTitleColor,
             #barrierDismissible: barrierDismissible,
+            #routeSettings: routeSettings,
             #dialogPlatform: dialogPlatform,
           },
         ),
@@ -731,25 +755,10 @@ class MockDialogService extends _i1.Mock implements _i6.DialogService {
       );
 }
 
-/// A class which mocks [ApiService].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockApiService extends _i1.Mock implements _i11.ApiService {
-  @override
-  _i9.Future<bool> postLogin(_i2.LoginBody? loginBody) => (super.noSuchMethod(
-        Invocation.method(
-          #postLogin,
-          [loginBody],
-        ),
-        returnValue: _i9.Future<bool>.value(false),
-        returnValueForMissingStub: _i9.Future<bool>.value(false),
-      ) as _i9.Future<bool>);
-}
-
 /// A class which mocks [ClientService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockClientService extends _i1.Mock implements _i12.ClientService {
+class MockClientService extends _i1.Mock implements _i11.ClientService {
   @override
   _i9.Future<_i2.Client> getClientId(String? id) => (super.noSuchMethod(
         Invocation.method(
@@ -773,60 +782,160 @@ class MockClientService extends _i1.Mock implements _i12.ClientService {
       ) as _i9.Future<_i2.Client>);
 
   @override
-  _i9.Future<List<_i2.Client>> getListClient() => (super.noSuchMethod(
+  _i9.Future<_i3.Either<_i12.Failure, List<_i2.Client>>> getListClient() =>
+      (super.noSuchMethod(
         Invocation.method(
           #getListClient,
           [],
         ),
-        returnValue: _i9.Future<List<_i2.Client>>.value(<_i2.Client>[]),
+        returnValue:
+            _i9.Future<_i3.Either<_i12.Failure, List<_i2.Client>>>.value(
+                _FakeEither_1<_i12.Failure, List<_i2.Client>>(
+          this,
+          Invocation.method(
+            #getListClient,
+            [],
+          ),
+        )),
         returnValueForMissingStub:
-            _i9.Future<List<_i2.Client>>.value(<_i2.Client>[]),
-      ) as _i9.Future<List<_i2.Client>>);
+            _i9.Future<_i3.Either<_i12.Failure, List<_i2.Client>>>.value(
+                _FakeEither_1<_i12.Failure, List<_i2.Client>>(
+          this,
+          Invocation.method(
+            #getListClient,
+            [],
+          ),
+        )),
+      ) as _i9.Future<_i3.Either<_i12.Failure, List<_i2.Client>>>);
+
+  @override
+  _i9.Future<_i3.Either<_i12.Failure, _i13.ConfirmClientResponse>> updateClient(
+          _i14.ClientParams? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateClient,
+          [params],
+        ),
+        returnValue:
+            _i9.Future<_i3.Either<_i12.Failure, _i13.ConfirmClientResponse>>.value(
+                _FakeEither_1<_i12.Failure, _i13.ConfirmClientResponse>(
+          this,
+          Invocation.method(
+            #updateClient,
+            [params],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i9.Future<_i3.Either<_i12.Failure, _i13.ConfirmClientResponse>>.value(
+                _FakeEither_1<_i12.Failure, _i13.ConfirmClientResponse>(
+          this,
+          Invocation.method(
+            #updateClient,
+            [params],
+          ),
+        )),
+      ) as _i9.Future<_i3.Either<_i12.Failure, _i13.ConfirmClientResponse>>);
+
+  @override
+  _i9.Future<_i3.Either<_i12.Failure, _i15.CreateClientResponse>> createClient(
+          _i16.ClientBody? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #createClient,
+          [params],
+        ),
+        returnValue: _i9
+            .Future<_i3.Either<_i12.Failure, _i15.CreateClientResponse>>.value(
+            _FakeEither_1<_i12.Failure, _i15.CreateClientResponse>(
+          this,
+          Invocation.method(
+            #createClient,
+            [params],
+          ),
+        )),
+        returnValueForMissingStub: _i9
+            .Future<_i3.Either<_i12.Failure, _i15.CreateClientResponse>>.value(
+            _FakeEither_1<_i12.Failure, _i15.CreateClientResponse>(
+          this,
+          Invocation.method(
+            #createClient,
+            [params],
+          ),
+        )),
+      ) as _i9.Future<_i3.Either<_i12.Failure, _i15.CreateClientResponse>>);
+
+  @override
+  _i9.Future<_i3.Either<_i12.Failure, _i13.ConfirmClientResponse>> deleteClient(
+          String? id) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteClient,
+          [id],
+        ),
+        returnValue:
+            _i9.Future<_i3.Either<_i12.Failure, _i13.ConfirmClientResponse>>.value(
+                _FakeEither_1<_i12.Failure, _i13.ConfirmClientResponse>(
+          this,
+          Invocation.method(
+            #deleteClient,
+            [id],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i9.Future<_i3.Either<_i12.Failure, _i13.ConfirmClientResponse>>.value(
+                _FakeEither_1<_i12.Failure, _i13.ConfirmClientResponse>(
+          this,
+          Invocation.method(
+            #deleteClient,
+            [id],
+          ),
+        )),
+      ) as _i9.Future<_i3.Either<_i12.Failure, _i13.ConfirmClientResponse>>);
 }
 
 /// A class which mocks [SecureStorageService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSecureStorageService extends _i1.Mock
-    implements _i13.SecureStorageService {
+    implements _i17.SecureStorageService {
   @override
-  _i3.FlutterSecureStorage get storage => (super.noSuchMethod(
+  _i4.FlutterSecureStorage get storage => (super.noSuchMethod(
         Invocation.getter(#storage),
-        returnValue: _FakeFlutterSecureStorage_1(
+        returnValue: _FakeFlutterSecureStorage_2(
           this,
           Invocation.getter(#storage),
         ),
-        returnValueForMissingStub: _FakeFlutterSecureStorage_1(
+        returnValueForMissingStub: _FakeFlutterSecureStorage_2(
           this,
           Invocation.getter(#storage),
         ),
-      ) as _i3.FlutterSecureStorage);
+      ) as _i4.FlutterSecureStorage);
 
   @override
-  _i4.Encrypter get encrypter => (super.noSuchMethod(
+  _i5.Encrypter get encrypter => (super.noSuchMethod(
         Invocation.getter(#encrypter),
-        returnValue: _FakeEncrypter_2(
+        returnValue: _FakeEncrypter_3(
           this,
           Invocation.getter(#encrypter),
         ),
-        returnValueForMissingStub: _FakeEncrypter_2(
+        returnValueForMissingStub: _FakeEncrypter_3(
           this,
           Invocation.getter(#encrypter),
         ),
-      ) as _i4.Encrypter);
+      ) as _i5.Encrypter);
 
   @override
-  _i4.IV get iv => (super.noSuchMethod(
+  _i5.IV get iv => (super.noSuchMethod(
         Invocation.getter(#iv),
-        returnValue: _FakeIV_3(
+        returnValue: _FakeIV_4(
           this,
           Invocation.getter(#iv),
         ),
-        returnValueForMissingStub: _FakeIV_3(
+        returnValueForMissingStub: _FakeIV_4(
           this,
           Invocation.getter(#iv),
         ),
-      ) as _i4.IV);
+      ) as _i5.IV);
 
   @override
   _i9.Future<void> saveToken(String? accessToken) => (super.noSuchMethod(
@@ -942,17 +1051,17 @@ class MockSecureStorageService extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockLoginServiceService extends _i1.Mock
-    implements _i14.LoginServiceService {
+    implements _i18.LoginServiceService {
   @override
-  _i9.Future<_i5.Either<_i2.Failure, _i2.Login>> postLogin(
-          _i2.LoginBody? loginBody) =>
+  _i9.Future<_i3.Either<_i12.Failure, _i19.Login>> postLogin(
+          _i19.LoginBody? loginBody) =>
       (super.noSuchMethod(
         Invocation.method(
           #postLogin,
           [loginBody],
         ),
-        returnValue: _i9.Future<_i5.Either<_i2.Failure, _i2.Login>>.value(
-            _FakeEither_4<_i2.Failure, _i2.Login>(
+        returnValue: _i9.Future<_i3.Either<_i12.Failure, _i19.Login>>.value(
+            _FakeEither_1<_i12.Failure, _i19.Login>(
           this,
           Invocation.method(
             #postLogin,
@@ -960,19 +1069,59 @@ class MockLoginServiceService extends _i1.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i9.Future<_i5.Either<_i2.Failure, _i2.Login>>.value(
-                _FakeEither_4<_i2.Failure, _i2.Login>(
+            _i9.Future<_i3.Either<_i12.Failure, _i19.Login>>.value(
+                _FakeEither_1<_i12.Failure, _i19.Login>(
           this,
           Invocation.method(
             #postLogin,
             [loginBody],
           ),
         )),
-      ) as _i9.Future<_i5.Either<_i2.Failure, _i2.Login>>);
+      ) as _i9.Future<_i3.Either<_i12.Failure, _i19.Login>>);
 }
 
 /// A class which mocks [ImagePickerService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockImagePickerService extends _i1.Mock
-    implements _i15.ImagePickerService {}
+    implements _i20.ImagePickerService {
+  @override
+  _i9.Future<_i21.XFile?> pickImageFromGallery() => (super.noSuchMethod(
+        Invocation.method(
+          #pickImageFromGallery,
+          [],
+        ),
+        returnValue: _i9.Future<_i21.XFile?>.value(),
+        returnValueForMissingStub: _i9.Future<_i21.XFile?>.value(),
+      ) as _i9.Future<_i21.XFile?>);
+
+  @override
+  _i9.Future<_i21.XFile?> takePhoto() => (super.noSuchMethod(
+        Invocation.method(
+          #takePhoto,
+          [],
+        ),
+        returnValue: _i9.Future<_i21.XFile?>.value(),
+        returnValueForMissingStub: _i9.Future<_i21.XFile?>.value(),
+      ) as _i9.Future<_i21.XFile?>);
+
+  @override
+  _i9.Future<_i21.XFile?> pickVideoFromGallery() => (super.noSuchMethod(
+        Invocation.method(
+          #pickVideoFromGallery,
+          [],
+        ),
+        returnValue: _i9.Future<_i21.XFile?>.value(),
+        returnValueForMissingStub: _i9.Future<_i21.XFile?>.value(),
+      ) as _i9.Future<_i21.XFile?>);
+
+  @override
+  _i9.Future<_i21.XFile?> recordVideo() => (super.noSuchMethod(
+        Invocation.method(
+          #recordVideo,
+          [],
+        ),
+        returnValue: _i9.Future<_i21.XFile?>.value(),
+        returnValueForMissingStub: _i9.Future<_i21.XFile?>.value(),
+      ) as _i9.Future<_i21.XFile?>);
+}

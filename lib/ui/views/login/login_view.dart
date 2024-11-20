@@ -73,8 +73,6 @@ class LoginView extends StackedView<LoginViewModel> with $LoginView {
                         style: UiStyle.textFormStyle,
                         controller: passwordController,
                         obscureText: viewModel.isObscurePassword ? true : false,
-                        // onChanged: (value) =>
-                        //     viewModel.setPasswordValidationMessage(null),
                         decoration: InputDecoration(
                           labelText: ksLoginLabelPassword,
                           labelStyle: _textFormStyle,
