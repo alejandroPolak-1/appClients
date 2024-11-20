@@ -26,11 +26,6 @@ class SecureStorageService {
     );
   }
 
-  // Future<Map<String, String?>> getToken() async {
-  //   return {
-  //     'accessToken': await getValue('accessToken'),
-  //   };
-  // }
   Future<String?> getToken() async {
     return await getValue('accessToken');
   }

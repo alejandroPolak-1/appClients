@@ -24,7 +24,8 @@ class ClientService {
     );
   }
 
-  // Future<List<Client>> getListClient() async {
+  // Future<List<Client>> getListClient() async {}
+  //  Con uses case in repository
   //   GetListClient getListClient = GetListClient();
 
   //   final response = await getListClient.call(NoParams());
@@ -46,12 +47,11 @@ class ClientService {
 
   Future<Either<Failure, ConfirmClientResponse>> updateClient(
       ClientParams params) async {
+    // PutEditClienteUseCase getListClient = PutEditClienteUseCase();
+    // final response = await getListClient.call(params);
+
     final response = UseCaseBehavior.invokeProvider<ConfirmClientResponse>(
         ClientProvider().putClientUpdate, params);
-
-    // PutEditClienteUseCase getListClient = PutEditClienteUseCase();
-
-    // final response = await getListClient.call(params);
 
     return response;
   }
@@ -59,16 +59,11 @@ class ClientService {
   Future<Either<Failure, CreateClientResponse>> createClient(
       ClientBody params) async {
     // PostCreateClienteUseCase getListClient = PostCreateClienteUseCase();
-
     // final response = await getListClient.call(params);
-
     // return response;
+
     final response = UseCaseBehavior.invokeProvider<CreateClientResponse>(
         ClientProvider().postClientCreate, params);
-
-    // PutEditClienteUseCase getListClient = PutEditClienteUseCase();
-
-    // final response = await getListClient.call(params);
 
     return response;
   }
