@@ -1,3 +1,5 @@
+import 'package:tots_stacked_app/ui/common/_common.dart';
+
 class TextInputValidators {
   static final RegExp emailRegExp = RegExp(
     r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,6}$',
@@ -9,7 +11,7 @@ class TextInputValidators {
     }
 
     if (!emailRegExp.hasMatch(value)) {
-      return 'Please enter a valid email format';
+      return ksErrorInputEmail;
     }
 
     return null;
@@ -17,7 +19,7 @@ class TextInputValidators {
 
   static String? validatePasswordText(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Password cannot be empty';
+      return ksErrorInputPassword;
     }
 
     // if (!RegExp(r'[A-Z]').hasMatch(value)) {

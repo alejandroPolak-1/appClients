@@ -1,14 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked_annotations.dart';
-import 'package:tots_stacked_app/ui/common/app_colors.dart';
-import 'package:tots_stacked_app/ui/common/app_strings.dart';
-import 'package:tots_stacked_app/ui/common/ui_helpers.dart';
+
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'package:tots_stacked_app/ui/common/ui_style.dart';
+import 'package:tots_stacked_app/api_repository/_api_repository.dart';
+
 import 'package:tots_stacked_app/ui/dialogs/dialog_form/dialog_form_dialog.form.dart';
-import 'package:tots_stacked_app/ui/widgets/common/custombutton/custombutton.dart';
-import 'package:tots_stacked_app/ui/common/enums.dart';
+import 'package:tots_stacked_app/ui/common/_common.dart';
+import 'package:tots_stacked_app/ui/widgets/_widget.dart';
 
 import 'dialog_form_dialog_model.dart';
 
@@ -21,19 +22,11 @@ class DialogFormDialog extends StackedView<DialogFormDialogModel>
     with $DialogFormDialog {
   final DialogRequest request;
   final Function(DialogResponse) completer;
-  // final String? firstName;
-  // final String? lastName;
-  // final String? email;
-  // final String? urlImage;
 
   const DialogFormDialog({
     Key? key,
     required this.request,
     required this.completer,
-    // this.firstName,
-    // this.lastName,
-    // this.email,
-    // this.urlImage,
   }) : super(key: key);
 
   static const _textFormStyle = UiStyle.textFormStyle;
@@ -43,11 +36,14 @@ class DialogFormDialog extends StackedView<DialogFormDialogModel>
     // Si hay datos en la solicitud, sincroniza el formulario
     if (request.data != null) {
       final data = request.data;
-      // viewModel.setInitialValues(
-      firstNameController.text = data[ksLabelFirstNameClient] ?? ''; //"firstName"
-      lastNameController.text = data[ksLabelLastNameClient] ?? '';   //"lastNam e"
-      emailAddressController.text = data[ksLabelEmailAdressClient] ?? '';// "email"
-      // );
+      viewModel.idClient = request.data["id"];
+      viewModel.photo = request.data["photo"];
+
+      firstNameController.text =
+          data[ksLabelFirstNameClient] ?? ''; //"firstName"
+      lastNameController.text = data[ksLabelLastNameClient] ?? ''; //"lastNam e"
+      emailAddressController.text =
+          data[ksLabelEmailAdressClient] ?? ''; // "email"
     }
     syncFormWithViewModel(viewModel);
   }
@@ -58,6 +54,8 @@ class DialogFormDialog extends StackedView<DialogFormDialogModel>
     DialogFormDialogModel viewModel,
     Widget? child,
   ) {
+    bool isCreatingForm = request.data["id"] == null;
+
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       backgroundColor: kcBagroundModalColor,
@@ -71,18 +69,42 @@ class DialogFormDialog extends StackedView<DialogFormDialogModel>
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    ksEditClientTextModal,
+                  Text(
+                    isCreatingForm
+                        ? ksAddNewClientTextModal
+                        : ksEditClientTextModal,
                     style: UiStyle.textStyle12Bold,
                   ),
                   verticalSpaceSmall,
                   Center(
-                    child: CircleAvatar(
-                      radius: 60,
-                      backgroundColor: Colors.grey[300],
-                      
-                      // backgroundImage: _imageFile != null ? FileImage(_imageFile!) : null,
-                      // child: _imageFile == null ? Icon(Icons.person, size: 60) : null,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        GestureDetector(
+                          onTap: viewModel.takeAPhoto,
+                          child: CircleAvatar(
+                            radius: 50,
+
+                            backgroundImage: viewModel.photo != null
+                                ? viewModel.photo!.startsWith("http")
+                                    ? NetworkImage(viewModel.photo!)
+                                    : FileImage(File(viewModel.photo!))
+                                : null,
+                            child: viewModel.photo == null
+                                ? const Icon(Icons.photo_camera_outlined,
+                                    size:
+                                        50) // Icono por defecto si no hay imagen
+                                : null,
+
+                            //   : null,
+                            // child: _selectedFile == null
+                            //   ? const Icon(Icons.person, size: 50)
+                            //   : null,
+                          ),
+                        ),
+                        verticalSpaceSmall
+                        // Otras opciones o botones si los necesitas
+                      ],
                     ),
                   ),
                   verticalSpaceSmall,
@@ -113,6 +135,7 @@ class DialogFormDialog extends StackedView<DialogFormDialogModel>
                     controller: emailAddressController,
                     decoration: InputDecoration(
                         labelText: ksLabelEmailAdressClient,
+                        helperMaxLines: 1,
                         labelStyle: _textFormStyle,
                         errorText: viewModel.emailAddressValidationMessage),
                   ),
@@ -144,7 +167,29 @@ class DialogFormDialog extends StackedView<DialogFormDialogModel>
                   widthFactor: 0.3,
                   onPressed: () async {
                     viewModel.validateForm();
-                    // await viewModel.login(
+
+                    var itsNewData = isCreatingForm
+                        ? await viewModel.createClient(ClientBody(
+                            firstname: firstNameController.text,
+                            lastname: lastNameController.text,
+                            email: emailAddressController.text,
+                            photo: viewModel.image?.path))
+                        : await viewModel.updateClient(
+                            ClientParams(
+                                id: viewModel.idClient.toString(),
+                                body: ClientBody(
+                                    firstname: firstNameController.text,
+                                    lastname: lastNameController.text,
+                                    email: emailAddressController.text,
+                                    photo: viewModel.image?.path)),
+                          );
+
+                    if (itsNewData == true) {
+                      viewModel.navigateHome();
+                    } else if (itsNewData == false) {
+                      viewModel.getBack();
+                    }
+
                     //   email: mailController.text,
                     //   password: passwordController.text,
                     // );
@@ -152,26 +197,6 @@ class DialogFormDialog extends StackedView<DialogFormDialogModel>
                 ),
               ],
             )
-            // GestureDetector(
-            //   onTap: () => completer(DialogResponse(confirmed: true)),
-            //   child: Container(
-            //     height: 50,
-            //     width: double.infinity,
-            //     alignment: Alignment.center,
-            //     decoration: BoxDecoration(
-            //       color: Colors.black,
-            //       borderRadius: BorderRadius.circular(10),
-            //     ),
-            //     child: const Text(
-            //       'Got it',
-            //       style: TextStyle(
-            //         color: Colors.white,
-            //         fontWeight: FontWeight.bold,
-            //         fontSize: 16,
-            //       ),
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),

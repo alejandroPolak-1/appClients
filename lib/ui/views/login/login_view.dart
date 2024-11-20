@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:tots_stacked_app/ui/common/app_colors.dart';
-import 'package:tots_stacked_app/ui/common/app_strings.dart';
-import 'package:tots_stacked_app/ui/common/ui_helpers.dart';
-import 'package:tots_stacked_app/ui/common/ui_style.dart';
-
+import 'package:tots_stacked_app/ui/common/_common.dart';
+import 'package:tots_stacked_app/ui/widgets/_widget.dart';
 import 'package:tots_stacked_app/ui/views/login/login_view.form.dart';
-import 'package:tots_stacked_app/ui/widgets/common/custombutton/custombutton.dart';
-import 'package:tots_stacked_app/ui/widgets/common/login_background/login_background.dart';
 import 'package:tots_stacked_app/utils/validators/text_input_validators.dart';
 
 import 'login_viewmodel.dart';

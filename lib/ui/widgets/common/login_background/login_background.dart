@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:stacked/stacked.dart';
 import 'package:tots_stacked_app/ui/common/app_colors.dart';
 
-import 'login_background_model.dart';
-
-class LoginBackground extends StackedView<LoginBackgroundModel> {
+class LoginBackground extends StatelessWidget {
   const LoginBackground({super.key});
 
   @override
-  Widget builder(
-    BuildContext context,
-    LoginBackgroundModel viewModel,
-    Widget? child,
-  ) {
+  Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.sizeOf(context).height,
       width: MediaQuery.sizeOf(context).width,
@@ -22,12 +15,6 @@ class LoginBackground extends StackedView<LoginBackgroundModel> {
       ),
     );
   }
-
-  @override
-  LoginBackgroundModel viewModelBuilder(
-    BuildContext context,
-  ) =>
-      LoginBackgroundModel();
 }
 
 class _BackgroundPainter extends CustomPainter {
@@ -38,7 +25,6 @@ class _BackgroundPainter extends CustomPainter {
       ..shader = const RadialGradient(
         colors: [
           kcBackgroundSecundaryColor, // Centro con alta opacidad
-
           Color.fromARGB(0, 255, 255, 255), // Centro con alta opacidad
         ],
         stops: [0.1, 0.7],

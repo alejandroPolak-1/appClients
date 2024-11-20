@@ -1,19 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:stacked/stacked.dart';
 import 'package:tots_stacked_app/ui/common/app_colors.dart';
 
-import 'home_backgound_model.dart';
-
-class HomeBackgound extends StackedView<HomeBackgoundModel> {
+class HomeBackgound extends StatelessWidget {
   const HomeBackgound({super.key});
 
   @override
-  Widget builder(
-    BuildContext context,
-    HomeBackgoundModel viewModel,
-    Widget? child,
-  ) {
+  Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.sizeOf(context).height,
       width: MediaQuery.sizeOf(context).width,
@@ -23,12 +15,6 @@ class HomeBackgound extends StackedView<HomeBackgoundModel> {
       ),
     );
   }
-
-  @override
-  HomeBackgoundModel viewModelBuilder(
-    BuildContext context,
-  ) =>
-      HomeBackgoundModel();
 }
 
 class _BackgroundPainter extends CustomPainter {
@@ -39,42 +25,38 @@ class _BackgroundPainter extends CustomPainter {
       ..shader = const RadialGradient(
         colors: [
           kcBackgroundSecundaryColor, // Centro con alta opacidad
-
           Color.fromARGB(0, 255, 255, 255), // Centro con alta opacidad
         ],
-        stops: [0.1, 0.7],
+        stops: [0, 1],
       ).createShader(Rect.fromCenter(
-        center: Offset(size.width, size.height * 0.1),
-        width: size.width * 3,
-        height: size.height * 8,
+        center: const Offset(0, 0),
+        width: size.width * 0.5,
+        height: size.height * 0.5,
       ));
 
     canvas.drawOval(
       Rect.fromCenter(
-        center: Offset(size.width, 0),
-        width: size.width * 3,
-        height: size.height * 8,
+        center: const Offset(0, 0),
+        width: size.width,
+        height: size.height,
       ),
       paint1,
     );
 
     final paint2 = Paint()
       ..style = PaintingStyle.fill
-      ..shader = RadialGradient(
-        colors: [
-          kcBackgroundSecundaryColor.withOpacity(0.33),
-          const Color.fromARGB(0, 255, 255, 255),
-        ],
-        stops: const [0.2, 0.8],
+      ..shader = const RadialGradient(
+        colors: [kcBackgroundSecundaryColor, kcBackgroundPrimaryColor],
+        stops: [0.2, 0.7],
       ).createShader(Rect.fromCenter(
-        center: Offset(0, size.height * 0.5),
-        width: size.width * 0.8,
-        height: size.height * 0.8,
+        center: Offset(size.width * 0.8, size.height * 0.4),
+        width: size.width,
+        height: size.height,
       ));
 
     canvas.drawOval(
       Rect.fromCenter(
-        center: Offset(0, size.height / 2),
+        center: Offset(size.width * 0.8, size.height * 0.4),
         width: size.width,
         height: size.height,
       ),
@@ -90,16 +72,16 @@ class _BackgroundPainter extends CustomPainter {
         ],
         stops: const [0.4, 0.7],
       ).createShader(Rect.fromCenter(
-        center: Offset(size.width * 0.5, size.height * 1.1),
-        width: size.width * 3,
-        height: size.height,
+        center: Offset(size.width, size.height),
+        width: size.width * 1.5,
+        height: size.height * 1.5,
       ));
 
     canvas.drawArc(
       Rect.fromCenter(
-        center: Offset(size.width * 0.5, size.height),
-        width: size.width,
-        height: size.height,
+        center: Offset(size.width, size.height),
+        width: size.width * 1.5,
+        height: size.height * 1.5,
       ),
       0,
       360,

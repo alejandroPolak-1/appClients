@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
-import 'package:tots_stacked_app/app/app.locator.dart';
-import 'package:tots_stacked_app/ui/common/app_colors.dart';
-import 'package:tots_stacked_app/ui/common/app_strings.dart';
-import 'package:tots_stacked_app/ui/common/ui_helpers.dart';
-import 'package:tots_stacked_app/ui/common/ui_style.dart';
-import 'package:tots_stacked_app/ui/widgets/common/custombutton/custombutton.dart';
-import 'package:tots_stacked_app/ui/widgets/common/home_backgound/home_backgound.dart';
+import 'package:stacked/stacked_annotations.dart';
+
+import 'package:tots_stacked_app/ui/views/home/home_view.form.dart';
+import 'package:tots_stacked_app/ui/common/_common.dart';
+import 'package:tots_stacked_app/ui/widgets/_widget.dart';
 
 import 'home_viewmodel.dart';
 
-class HomeView extends StackedView<HomeViewModel> {
+@FormView(fields: [
+  FormTextField(name: ksSearchLabelText, initialValue: ''),
+])
+class HomeView extends StackedView<HomeViewModel> with $HomeView {
   const HomeView({Key? key}) : super(key: key);
+
+  //   @override
+  // void onViewModelReady(HomeView viewModel) {
+  //   syncFormWithViewModel(viewModel);
+  // }
 
   @override
   Widget builder(
@@ -45,18 +50,22 @@ class HomeView extends StackedView<HomeViewModel> {
                           Text(ksHomeTitleText, style: UiStyle.textStyle20Bold),
                         ],
                       ),
-                      verticalSpaceSmall,
+                      verticalSpaceMedium,
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Expanded(
                             child: TextField(
+                              controller: searchController,
+                              onChanged: (string) {
+                                viewModel.searchListClient(string);
+                              },
                               decoration: InputDecoration(
                                 hintText: ksSearchHintText,
-
-                                prefixIcon: Icon(Icons.search),
+                                isDense: true,
+                                prefixIcon: const Icon(Icons.search),
                                 border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
+                                  borderRadius: BorderRadius.circular(50.0),
                                   borderSide: const BorderSide(
                                     color: Colors.black, // Color del borde
                                     width: 1.0, // Ancho del borde
@@ -70,7 +79,9 @@ class HomeView extends StackedView<HomeViewModel> {
                           horizontalSpaceSmall,
                           Custombutton(
                               label: ksAddNewClienteButtonText,
-                              onPressed: () {},
+                              onPressed: () {
+                                viewModel.showDialogCreateClient();
+                              },
                               widthFactor: 0.15,
                               height: 40),
                         ],
@@ -85,68 +96,15 @@ class HomeView extends StackedView<HomeViewModel> {
                             child: CircularProgressIndicator(),
                           )
                         : ListView.builder(
-                            itemCount: viewModel.data?.length ?? 0,
+                            itemCount: viewModel.listClients.length,
                             itemBuilder: (context, index) {
                               final client = viewModel.data![index];
-                              return Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  side: const BorderSide(
-                                    color: Colors.black, // Color del borde
-                                    width: 1.0, // Ancho del borde
-                                  ),
-                                ),
-                                child: ListTile(
-                                  leading: CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                        "${client.photo}"), // Cambia esto por la URL real
-                                  ),
-                                  title: Text("${client.firstname}"),
-                                  subtitle: Text("${client.email}"),
-                                  trailing: Theme(
-                                    data: Theme.of(context).copyWith(
-                                      popupMenuTheme: const PopupMenuThemeData(
-                                        color:
-                                            kcPopupBackgroundColor, // Fondo negro para el popup
-                                        textStyle: TextStyle(
-                                            color:
-                                                kcPopupText), // Texto en blanco
-                                      ),
-                                    ),
-                                    child: PopupMenuButton<String>(
-                                      icon: const Icon(Icons.more_vert,
-                                          color:
-                                              kcPopupBackgroundColor), // Icono en blanco
-                                      onSelected: (String value) {
-                                        switch (value) {
-                                          case ksEditButtonText:
-                                            viewModel
-                                                .showDialogEditClient(client);
-                                            break;
-                                          default:
-                                        }
-                                      },
-                                      itemBuilder: (BuildContext context) {
-                                        return [
-                                          const PopupMenuItem<String>(
-                                            value: ksEditButtonText,
-                                            child: Row(children: [
-                                              Icon(
-                                                Icons.edit,
-                                                color: kcPopupText,
-                                              ),
-                                              horizontalSpaceTiny,
-                                              Text(ksEditButtonText,
-                                                  style: TextStyle(
-                                                      color: kcPopupText))
-                                            ]),
-                                          ),
-                                        ];
-                                      },
-                                    ),
-                                  ),
-                                ),
+                              return CardHome(
+                                client: client,
+                               
                               );
+
+                             
                             },
                           ),
                   ),
@@ -155,7 +113,9 @@ class HomeView extends StackedView<HomeViewModel> {
 
                   Custombutton(
                     label: ksLoadMoreClientButtonText,
-                    onPressed: () {},
+                    onPressed: () async {
+                      await viewModel.getClients();
+                    },
                   ),
 
                   verticalSpaceSmall,

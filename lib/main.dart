@@ -5,8 +5,8 @@ import 'package:tots_stacked_app/api_repository/dio_controller.dart';
 import 'package:tots_stacked_app/app/app.bottomsheets.dart';
 import 'package:tots_stacked_app/app/app.dialogs.dart';
 import 'package:tots_stacked_app/app/app.locator.dart';
-import 'package:tots_stacked_app/app/app.router.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:tots_stacked_app/app/app.router.dart';
 import 'package:tots_stacked_app/services/secure_storage_service.dart';
 
 Future<void> main() async {

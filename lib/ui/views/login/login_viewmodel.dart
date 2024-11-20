@@ -6,6 +6,7 @@ import 'package:tots_stacked_app/app/app.locator.dart';
 import 'package:tots_stacked_app/app/app.router.dart';
 import 'package:tots_stacked_app/services/login_service_service.dart';
 import 'package:tots_stacked_app/services/secure_storage_service.dart';
+import 'package:tots_stacked_app/ui/common/app_strings.dart';
 import 'package:tots_stacked_app/ui/views/login/login_view.form.dart';
 import 'package:tots_stacked_app/utils/validators/text_input_validators.dart';
 
@@ -13,9 +14,7 @@ class LoginViewModel extends FormViewModel {
   final _apiService = locator<LoginServiceService>();
   final _navigationService = locator<NavigationService>();
   final _dialogService = locator<DialogService>();
-
-  // final SecureStorageService _storageService = locator<SecureStorageService>();
-  final SecureStorageService _storageService = SecureStorageService();
+  final _storageService = SecureStorageService();
 
   bool isLoggedIn = false;
   bool firstLogin = true;
@@ -40,27 +39,39 @@ class LoginViewModel extends FormViewModel {
     // Handle any additional logic after setting validation messages
   }
 
+  // void validateForm() {
+  //   final validationMessages = <String, String?>{};
+
+  //   // Validate each field and collect messages
+  //   final mailInputMessage =
+  //       TextInputValidators.validateMailText(formValueMap['Mail']);
+  //   if (mailInputMessage != null) {
+  //     validationMessages['Mail'] = mailInputMessage;
+  //   } else {
+  //     setMailValidationMessage(null);
+  //   }
+
+  //   final passwordInputMessage =
+  //       TextInputValidators.validatePasswordText(formValueMap['Password']);
+  //   if (passwordInputMessage != null) {
+  //     validationMessages['Password'] = passwordInputMessage;
+  //   } else {
+  //     setPasswordValidationMessage(null);
+  //   }
+
+  //   setValidationMessages(validationMessages);
+  // 
   void validateForm() {
-    final validationMessages = <String, String?>{};
-
-    // Validate each field and collect messages
-    final mailInputMessage =
-        TextInputValidators.validateMailText(formValueMap['Mail']);
-    if (mailInputMessage != null) {
-      validationMessages['Mail'] = mailInputMessage;
-    } else {
-      setMailValidationMessage(null);
-    }
-
-    final passwordInputMessage =
-        TextInputValidators.validatePasswordText(formValueMap['Password']);
-    if (passwordInputMessage != null) {
-      validationMessages['Password'] = passwordInputMessage;
-    } else {
-      setPasswordValidationMessage(null);
-    }
+    final validationMessages = <String, String?>{
+      ksLoginLabelMail: TextInputValidators.validateMailText(formValueMap[ksLoginLabelMail]),
+      ksLoginLabelPassword: TextInputValidators.validatePasswordText(formValueMap[ksLoginLabelPassword]),
+    };
 
     setValidationMessages(validationMessages);
+
+    // Clear validation messages for valid fields
+    if (validationMessages[ksLoginLabelMail] == null) setMailValidationMessage(null);
+    if (validationMessages[ksLoginLabelPassword] == null) setPasswordValidationMessage(null);
   }
 
   Future<void> login({required String email, required String password}) async {
@@ -76,16 +87,15 @@ class LoginViewModel extends FormViewModel {
 
     response.fold((l) {
       _dialogService.showDialog(
-        title: 'Error de autenticación',
-        description:
-            "No se pudo completar el inicio de sesión. \n Por favor, revisa tus credenciales y vuelve a intentarlo.",
+        title: ksErrorTitleLoginRespone,
+        description: ksErrorDescriptionLoginRespone,
       );
     }, (r) {
       loginGetStorageData(r);
       isLoggedIn = true;
       _navigationService.replaceWithHomeView();
-      passwordValidationMessage!;
-      mailValidationMessage!;
+      // passwordValidationMessage!;
+      // mailValidationMessage!;
     });
 
     return;
@@ -94,15 +104,6 @@ class LoginViewModel extends FormViewModel {
   Future<void> loginGetStorageData(Login r) async {
     API.getInstance().setToken(r.accessToken.toString());
 
-    // // Configurar los encabezados
-    // Map<String, String> headers = {
-    //   "accessToken": r.accessToken.toString(),
-    // };
-
-    // Guardar el token
     _storageService.saveToken(r.accessToken.toString());
-
-    // // Guardar los encabezados
-    // await _storageService.write("headers", json.encode(headers));
   }
 }
