@@ -1,7 +1,7 @@
 name: tots_stacked_app
 description: A new Flutter project.
 publish_to: 'none'
-version: 0.1.0
+version: 0.1.1
 
 environment:
   sdk: ^3.5.4
@@ -31,17 +31,15 @@ dev_dependencies:
 
 flutter_launcher_icons:
   android: "ic_tots"
-  adaptive_icon_foreground: "assets/images/logo_tots_app.png"
-  adaptive_icon_background: "#a29896"
-  ios: true
   image_path: "assets/images/logo_app.png"
+  adaptive_icon_foreground: "assets/images/logo_tots_app.png"
+  adaptive_icon_background: "#474141"
+  ios: true
   min_sdk_android: 30
   web:
     generate: true
     image_path: "assets/images/logo_tots_app.png"
-    background_color: "#ffffff"
-    theme_color: "#ffffff"
-    adaptive_icon_background: "#ffffff"
+    adaptive_icon_background: "#474141"
     adaptive_icon_foreground: "assets/images/logo_tots_app.png"
 
 flutter:
