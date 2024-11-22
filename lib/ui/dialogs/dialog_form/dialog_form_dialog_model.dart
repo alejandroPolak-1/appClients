@@ -41,16 +41,6 @@ class DialogFormDialogModel extends FormViewModel {
     _navigationService.back();
   }
 
-  void setInitialValues(
-      {required String firstname,
-      required String lastname,
-      required String email}) {
-    this.firstname = firstname;
-    this.lastname = lastname;
-    this.email = email;
-    notifyListeners(); // Notifica a la vista sobre los cambios
-  }
-
   void validateForm() {
     final validationMessages = <String, String?>{};
 
@@ -91,14 +81,18 @@ class DialogFormDialogModel extends FormViewModel {
   }
 
   Future<bool?> updateClient(ClientParams params) async {
+    setBusy(true);
+
     if (!isFormValid) {
-      // rebuildUi();
+      setBusy(false);
       return false;
     }
 
     final response = await _apiService.updateClient(params);
 
     return response.fold((l) {
+      setBusy(false);
+
       _snackService.showCustomSnackBar(
           message: 'No pudimos ',
           title: 'Ups!',
@@ -107,8 +101,10 @@ class DialogFormDialogModel extends FormViewModel {
 
       return false;
     }, (r) {
+      setBusy(false);
+
       showBootonModal();
-_snackService.showCustomSnackBar(
+      _snackService.showCustomSnackBar(
           message: 'No pudimos ',
           title: 'Ups!',
           variant: SnackbarConfig(backgroundColor: kcErrorColorBG),
@@ -130,17 +126,18 @@ _snackService.showCustomSnackBar(
     image = await _imagePickerService.takePhoto();
     photo = image?.path;
     rebuildUi();
-    print(image);
   }
 
   Future<bool?> createClient(ClientBody params) async {
+    setBusy(true);
     if (!isFormValid) {
-      // rebuildUi();
+      setBusy(false);
       return null;
     }
     final response = await _apiService.createClient(params);
 
     return response.fold((l) {
+      setBusy(false);
       // _snackService.showSnackbar(
       // message: 'No pudimos ',
       // title: 'Ups!',
@@ -148,6 +145,7 @@ _snackService.showCustomSnackBar(
 
       return false;
     }, (r) async {
+      setBusy(false);
       // _snackService.showSnackbar(
       //     message: "Genial, el cambió fue un éxito",
       //     duration: const Duration(seconds: 2));

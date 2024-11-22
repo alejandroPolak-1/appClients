@@ -3,6 +3,7 @@ import 'package:tots_stacked_app/ui/common/app_colors.dart';
 import 'package:tots_stacked_app/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:tots_stacked_app/ui/common/ui_style.dart';
 
 import 'notice_sheet_model.dart';
 
@@ -36,12 +37,12 @@ class NoticeSheet extends StackedView<NoticeSheetModel> {
         children: [
           Text(
             request.title!,
-            style: const TextStyle(fontSize: 25, fontWeight: FontWeight.w900),
+            style: UiStyle.base(25, fontWeight: FontWeight.w900),
           ),
           verticalSpaceTiny,
           Text(
             request.description!,
-            style: const TextStyle(fontSize: 14, color: kcMediumGrey),
+            style: UiStyle.base( 14, color: kcMediumGrey),
             maxLines: 3,
             softWrap: true,
           ),

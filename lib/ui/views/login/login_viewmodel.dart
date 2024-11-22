@@ -16,7 +16,6 @@ class LoginViewModel extends FormViewModel {
   final _dialogService = locator<DialogService>();
   final _storageService = SecureStorageService();
 
-  bool isLoggedIn = false;
   bool firstLogin = true;
 
   // @override
@@ -60,25 +59,31 @@ class LoginViewModel extends FormViewModel {
   //   }
 
   //   setValidationMessages(validationMessages);
-  // 
+  //
   void validateForm() {
     final validationMessages = <String, String?>{
-      ksLoginLabelMail: TextInputValidators.validateMailText(formValueMap[ksLoginLabelMail]),
-      ksLoginLabelPassword: TextInputValidators.validatePasswordText(formValueMap[ksLoginLabelPassword]),
+      ksLoginLabelMail:
+          TextInputValidators.validateMailText(formValueMap[ksLoginLabelMail]),
+      ksLoginLabelPassword: TextInputValidators.validatePasswordText(
+          formValueMap[ksLoginLabelPassword]),
     };
 
     setValidationMessages(validationMessages);
 
     // Clear validation messages for valid fields
-    if (validationMessages[ksLoginLabelMail] == null) setMailValidationMessage(null);
-    if (validationMessages[ksLoginLabelPassword] == null) setPasswordValidationMessage(null);
+    if (validationMessages[ksLoginLabelMail] == null)
+      setMailValidationMessage(null);
+    if (validationMessages[ksLoginLabelPassword] == null)
+      setPasswordValidationMessage(null);
   }
 
   Future<void> login({required String email, required String password}) async {
+    setBusy(true);
+
     firstLogin = false;
-    rebuildUi();
 
     if (!isFormValid) {
+      setBusy(false);
       return;
     }
 
@@ -86,13 +91,16 @@ class LoginViewModel extends FormViewModel {
         .postLogin(LoginBody(email: email, password: password));
 
     response.fold((l) {
+      setBusy(false);
       _dialogService.showDialog(
         title: ksErrorTitleLoginRespone,
-        description: ksErrorDescriptionLoginRespone,
+        // description: ksErrorDescriptionLoginRespone,
+        description:
+            "$ksErrorDescriptionLoginRespone \n ${l.message} \n $email \n $password",
       );
     }, (r) {
+      setBusy(false);
       loginGetStorageData(r);
-      isLoggedIn = true;
       _navigationService.replaceWithHomeView();
       // passwordValidationMessage!;
       // mailValidationMessage!;

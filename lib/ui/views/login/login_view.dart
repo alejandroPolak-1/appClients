@@ -23,8 +23,6 @@ class LoginView extends StackedView<LoginViewModel> with $LoginView {
     syncFormWithViewModel(viewModel);
   }
 
-  static const _textFormStyle = UiStyle.textFormStyle;
-
   @override
   Widget builder(
     BuildContext context,
@@ -37,73 +35,77 @@ class LoginView extends StackedView<LoginViewModel> with $LoginView {
           const Positioned.fill(child: LoginBackground()),
           Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Form(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      verticalSpaceMassive,
-                      Center(
-                        child: Image.asset('assets/images/minimal.png'),
-                      ),
-                      verticalSpaceMedium,
-                      const Center(
-                          child: Text(
-                        ksLoginTitle,
-                        style: UiStyle.textStyle12Bold,
-                      )),
-                      verticalSpaceSmall,
-                      TextFormField(
-                        style: _textFormStyle,
-                        controller: mailController,
-                        // onChanged: (value) =>
-                        //     viewModel.setMailValidationMessage(null),
-                        decoration: InputDecoration(
-                          labelText: ksLoginLabelMail,
-                          labelStyle: UiStyle.textFormStyle,
-                          errorText: viewModel.firstLogin
-                              ? null
-                              : viewModel.mailValidationMessage,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Form(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        verticalSpaceMassive,
+                        Center(
+                          child: Image.asset('assets/images/minimal.png'),
                         ),
-                      ),
-                      verticalSpaceSmall,
-                      TextFormField(
-                        style: UiStyle.textFormStyle,
-                        controller: passwordController,
-                        obscureText: viewModel.isObscurePassword ? true : false,
-                        decoration: InputDecoration(
-                          labelText: ksLoginLabelPassword,
-                          labelStyle: _textFormStyle,
-                          errorText: viewModel.firstLogin
-                              ? null
-                              : viewModel.passwordValidationMessage,
-                          suffixIcon: IconButton(
-                            icon: viewModel.isObscurePassword
-                                ? Icon(Icons.visibility,
-                                    color: kcMediumGrey.withOpacity(0.38))
-                                : Icon(Icons.visibility_off,
-                                    color: kcMediumGrey.withOpacity(0.38)),
-                            onPressed: viewModel.toggle,
+                        verticalSpaceMedium,
+                        Center(
+                            child: Text(
+                          ksLoginTitle,
+                          style: UiStyle.bold( 12 ),
+                        )),
+                        verticalSpaceSmall,
+                        TextFormField(
+                          style: UiStyle.base( 12),
+                          controller: mailController,
+                          // onChanged: (value) =>
+                          //     viewModel.setMailValidationMessage(null),
+                          decoration: InputDecoration(
+                            labelText: ksLoginLabelMail,
+                            labelStyle: UiStyle.base( 12),
+                            errorText: viewModel.firstLogin
+                                ? null
+                                : viewModel.mailValidationMessage,
                           ),
                         ),
-                      ),
-                    ],
+                        verticalSpaceSmall,
+                        TextFormField(
+                          style: UiStyle.base( 12),
+                          controller: passwordController,
+                          obscureText:
+                              viewModel.isObscurePassword ? true : false,
+                          decoration: InputDecoration(
+                            labelText: ksLoginLabelPassword,
+                            labelStyle: UiStyle.base( 12),
+                            errorText: viewModel.firstLogin
+                                ? null
+                                : viewModel.passwordValidationMessage,
+                            suffixIcon: IconButton(
+                              icon: viewModel.isObscurePassword
+                                  ? Icon(Icons.visibility,
+                                      color: kcMediumGrey.withOpacity(0.38))
+                                  : Icon(Icons.visibility_off,
+                                      color: kcMediumGrey.withOpacity(0.38)),
+                              onPressed: viewModel.toggle,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                verticalSpaceLarge,
-                Custombutton(
-                  label: ksLoginButton,
-                  onPressed: () async {
-                    viewModel.validateForm();
-                    await viewModel.login(
-                      email: mailController.text,
-                      password: passwordController.text,
-                    );
-                  },
-                ),
-              ],
+                  verticalSpaceLarge,
+                  Custombutton(
+                    label: ksLoginButton,
+                    isLoadign: viewModel.isBusy,
+                    onPressed: () async {
+                      viewModel.validateForm();
+                      await viewModel.login(
+                        email: mailController.text,
+                        password: passwordController.text,
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ],

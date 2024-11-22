@@ -3,23 +3,20 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:tots_stacked_app/api_repository/models/client_model.dart';
+import 'package:tots_stacked_app/ui/common/app_colors.dart';
 import 'package:tots_stacked_app/ui/common/app_strings.dart';
 import 'package:tots_stacked_app/ui/common/ui_helpers.dart';
+import 'package:tots_stacked_app/ui/common/ui_style.dart';
+import 'package:tots_stacked_app/ui/widgets/common/avatar/avatar.dart';
 
 import 'card_home_model.dart';
 
 class CardHome extends StackedView<CardHomeModel> {
   final Client client;
-  // final Function(String) onEdit;
 
   const CardHome({
     Key? key,
     required this.client,
-    // required this.firstName,
-    // required this.lastName,
-    // required this.email,
-    // this.photoUrl,
-    // required this.onEdit,
   }) : super(key: key);
 
   @override
@@ -36,52 +33,46 @@ class CardHome extends StackedView<CardHomeModel> {
       ),
       child: Center(
         child: Card(
-          color: Colors.white, // Cambia esto por kcBagroundCardTileColor
+          color: kcBagroundCardTileColor,
           elevation: 10.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
             side: const BorderSide(
-              color: Colors.black, // Color del borde
-              width: 1.0, // Ancho del borde
+              color: Colors.black,
+              width: 1.0,
             ),
           ),
           child: ListTile(
+            // dense: true,
             contentPadding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            leading: CircleAvatar(
-              radius: 50,
-              backgroundImage: client.photo != null && client.photo!.isNotEmpty
-                  ? client.photo!.startsWith("http")
-                      ? NetworkImage(client.photo!)
-                      : FileImage(File(client.photo!))
-                  : null,
-              child: client.photo == null || client.photo!.isEmpty
-                  ? const Icon(Icons.person,
-                      size: 50) // Icono por defecto si no hay imagen
-                  : null,
+                const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+
+            leading: Avatar(
+              urlImage: client.photo,
+              whitoutBorder: true,
             ),
-            title: Text(
-              "${client.firstname} ${client.lastname}",
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
+
+            title: Text("${client.firstname} ${client.lastname}",
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style:
+                    UiStyle.base(14)),
             subtitle: Text(
               client.email ?? "",
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
+              style: UiStyle.base(14),
             ),
             trailing: Theme(
               data: Theme.of(context).copyWith(
-                popupMenuTheme: const PopupMenuThemeData(
-                  color: Colors.black, // Cambia esto por kcPopupBackgroundColor
-                  textStyle: TextStyle(
-                      color: Colors.white), // Cambia esto por kcPopupText
+                popupMenuTheme: PopupMenuThemeData(
+                  color: kcPopupBackgroundColor,
+                  textStyle: UiStyle.base(14,color: kcPopupText),
                 ),
               ),
               child: PopupMenuButton<String>(
-                icon: const Icon(Icons.more_vert,
-                    color:
-                        Colors.black), // Cambia esto por kcPopupBackgroundColor
+                icon:
+                    const Icon(Icons.more_vert, color: kcPopupBackgroundColor),
                 onSelected: (String value) {
                   switch (value) {
                     case ksEditButtonText:
@@ -89,39 +80,36 @@ class CardHome extends StackedView<CardHomeModel> {
                       break;
                     case ksDeleteButtonText:
                       viewModel.showSuccessMessage();
-                      // viewModel.deleteCLient(client.id!.toString());
                       break;
                     default:
 
-                    // onEdit(client.email!);
                   }
                 },
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                      12.0), // Ajusta el valor para más o menos redondeo
+                  borderRadius: BorderRadius.circular(12.0),
                 ),
                 itemBuilder: (BuildContext context) {
                   return [
-                    const PopupMenuItem<String>(
-                        value: ksDeleteButtonText,
-                        child: Row(children: [
-                          Icon(Icons.delete, color: Colors.white),
-                          horizontalSpaceSmall,
-                          Text(ksDeleteButtonText,
-                              style: TextStyle(color: Colors.white)),
-                        ])), // Cambia esto por kcPopupText
-                    const PopupMenuItem<String>(
+                   
+                     PopupMenuItem<String>(
                       value: ksEditButtonText,
                       child: Row(children: [
-                        Icon(Icons.edit,
-                            color: Colors.white), // Cambia esto por kcPopupText
+                        const Icon(Icons.edit, color: kcPopupIcon),
                         horizontalSpaceSmall,
                         Text(ksEditButtonText,
-                            style: TextStyle(
-                                color: Colors
-                                    .white)), // Cambia esto por kcPopupText
+                            style: UiStyle.base(14,color: kcPopupText)),
                       ]),
                     ),
+
+                     PopupMenuItem<String>(
+                        value: ksDeleteButtonText,
+                        child: Row(children: [
+                          const Icon(Icons.delete, color: kcPopupIcon),
+                          horizontalSpaceSmall,
+                          Text(ksDeleteButtonText,
+                              style: UiStyle.base(14,color: kcPopupText)),
+                        ])), 
+
                   ];
                 },
               ),

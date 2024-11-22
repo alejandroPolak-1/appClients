@@ -14,10 +14,11 @@ import 'home_viewmodel.dart';
 class HomeView extends StackedView<HomeViewModel> with $HomeView {
   const HomeView({Key? key}) : super(key: key);
 
-  //   @override
-  // void onViewModelReady(HomeView viewModel) {
-  //   syncFormWithViewModel(viewModel);
-  // }
+  @override
+  void onViewModelReady(HomeViewModel viewModel) {
+    searchController.text = "";
+    syncFormWithViewModel(viewModel);
+  }
 
   @override
   Widget builder(
@@ -45,9 +46,9 @@ class HomeView extends StackedView<HomeViewModel> with $HomeView {
                         child: Image.asset('assets/images/minimal.png'),
                       ),
                       verticalSpaceSmall,
-                      const Row(
+                      Row(
                         children: [
-                          Text(ksHomeTitleText, style: UiStyle.textStyle20Bold),
+                          Text(ksHomeTitleText, style: UiStyle.bold(20)),
                         ],
                       ),
                       verticalSpaceMedium,
@@ -62,6 +63,8 @@ class HomeView extends StackedView<HomeViewModel> with $HomeView {
                               },
                               decoration: InputDecoration(
                                 hintText: ksSearchHintText,
+                                hintStyle: UiStyle.base(14),
+                                labelStyle: UiStyle.base(14),
                                 isDense: true,
                                 prefixIcon: const Icon(Icons.search),
                                 border: OutlineInputBorder(
@@ -96,15 +99,13 @@ class HomeView extends StackedView<HomeViewModel> with $HomeView {
                             child: CircularProgressIndicator(),
                           )
                         : ListView.builder(
-                            itemCount: viewModel.listClients.length,
+                            controller: viewModel.scrollController,
+                            itemCount: viewModel.listClientsLoad.length,
                             itemBuilder: (context, index) {
                               final client = viewModel.data![index];
                               return CardHome(
                                 client: client,
-                               
                               );
-
-                             
                             },
                           ),
                   ),
@@ -113,8 +114,8 @@ class HomeView extends StackedView<HomeViewModel> with $HomeView {
 
                   Custombutton(
                     label: ksLoadMoreClientButtonText,
-                    onPressed: () async {
-                      await viewModel.getClients();
+                    onPressed: () {
+                      viewModel.showLastClients(5);
                     },
                   ),
 

@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:tots_stacked_app/ui/common/app_colors.dart';
 import 'package:tots_stacked_app/ui/common/enums.dart';
+import 'package:tots_stacked_app/ui/common/ui_style.dart';
 
 import 'custombutton_model.dart';
 
 class Custombutton extends StackedView<CustombuttonModel> {
   final String label;
+  final bool isLoadign;
   final VoidCallback onPressed;
   final Color backgroundColor;
   final Color textColor;
@@ -25,6 +27,7 @@ class Custombutton extends StackedView<CustombuttonModel> {
     this.height = 50.0,
     this.fontSize = 14.0,
     this.buttonType = ButtonType.primary,
+    this.isLoadign = false,
   });
 
   @override
@@ -41,7 +44,7 @@ class Custombutton extends StackedView<CustombuttonModel> {
         Size(MediaQuery.of(context).size.width * widthFactor, height),
       ),
       textStyle: WidgetStateProperty.all(
-        TextStyle(fontFamily: 'DM Sans', fontSize: fontSize),
+        UiStyle.base(fontSize),
       ),
     );
 
@@ -49,7 +52,7 @@ class Custombutton extends StackedView<CustombuttonModel> {
         ? ElevatedButton(
             onPressed: onPressed,
             style: buttonStyle,
-            child: Text(label),
+            child: isLoadign ? const CircularProgressIndicator() : Text(label),
           )
         : TextButton(
             onPressed: onPressed,
@@ -59,20 +62,7 @@ class Custombutton extends StackedView<CustombuttonModel> {
             child: Text(label),
           );
 
-    // ElevatedButton(
-    //   onPressed: onPressed,
-    //   style: ElevatedButton.styleFrom(
-    //     backgroundColor: backgroundColor,
-    //     foregroundColor: textColor,
-    //     elevation: 0,
-    //     minimumSize:
-    //         Size(MediaQuery.of(context).size.width * widthFactor, height),
-    //   ),
-    //   child: Text(
-    //     label,
-    //     style: TextStyle(fontFamily: 'DM Sans', fontSize: fontSize),
-    //   ),
-    // );
+   
   }
 
   @override

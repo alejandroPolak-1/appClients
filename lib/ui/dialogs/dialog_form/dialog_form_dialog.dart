@@ -10,6 +10,7 @@ import 'package:tots_stacked_app/api_repository/_api_repository.dart';
 import 'package:tots_stacked_app/ui/dialogs/dialog_form/dialog_form_dialog.form.dart';
 import 'package:tots_stacked_app/ui/common/_common.dart';
 import 'package:tots_stacked_app/ui/widgets/_widget.dart';
+import 'package:tots_stacked_app/ui/widgets/common/avatar/avatar.dart';
 
 import 'dialog_form_dialog_model.dart';
 
@@ -28,8 +29,6 @@ class DialogFormDialog extends StackedView<DialogFormDialogModel>
     required this.request,
     required this.completer,
   }) : super(key: key);
-
-  static const _textFormStyle = UiStyle.textFormStyle;
 
   @override
   void onViewModelReady(DialogFormDialogModel viewModel) {
@@ -73,70 +72,52 @@ class DialogFormDialog extends StackedView<DialogFormDialogModel>
                     isCreatingForm
                         ? ksAddNewClientTextModal
                         : ksEditClientTextModal,
-                    style: UiStyle.textStyle12Bold,
+                    style: UiStyle.bold( 17 ),
+
                   ),
                   verticalSpaceSmall,
                   Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         GestureDetector(
                           onTap: viewModel.takeAPhoto,
-                          child: CircleAvatar(
-                            radius: 50,
-
-                            backgroundImage: viewModel.photo != null
-                                ? viewModel.photo!.startsWith("http")
-                                    ? NetworkImage(viewModel.photo!)
-                                    : FileImage(File(viewModel.photo!))
-                                : null,
-                            child: viewModel.photo == null
-                                ? const Icon(Icons.photo_camera_outlined,
-                                    size:
-                                        50) // Icono por defecto si no hay imagen
-                                : null,
-
-                            //   : null,
-                            // child: _selectedFile == null
-                            //   ? const Icon(Icons.person, size: 50)
-                            //   : null,
+                          child: Avatar(
+                           urlImage: viewModel.photo,
+                           border: 60,
                           ),
                         ),
-                        verticalSpaceSmall
-                        // Otras opciones o botones si los necesitas
                       ],
                     ),
                   ),
-                  verticalSpaceSmall,
                   TextFormField(
-                    style: _textFormStyle,
+                    style: UiStyle.base( 14),
                     controller: firstNameController,
-                    // onChanged: (value) =>
-                    //     viewModel.setMailValidationMessage(null),
                     decoration: InputDecoration(
                       labelText: ksLabelFirstNameClient,
-                      labelStyle: UiStyle.textFormStyle,
+                      labelStyle: UiStyle.base( 14),
                       errorText: viewModel.firstNameValidationMessage,
                     ),
                   ),
                   verticalSpaceSmall,
                   TextFormField(
-                    style: UiStyle.textFormStyle,
+                    style: UiStyle.base( 14),
                     controller: lastNameController,
                     decoration: InputDecoration(
                       labelText: ksLabelLastNameClient,
-                      labelStyle: _textFormStyle,
+                      labelStyle: UiStyle.base( 14),
                       errorText: viewModel.lastNameValidationMessage,
                     ),
                   ),
                   verticalSpaceSmall,
                   TextFormField(
-                    style: UiStyle.textFormStyle,
+                    style: UiStyle.base( 14),
                     controller: emailAddressController,
                     decoration: InputDecoration(
                         labelText: ksLabelEmailAdressClient,
                         helperMaxLines: 1,
-                        labelStyle: _textFormStyle,
+                        labelStyle: UiStyle.base( 14),
                         errorText: viewModel.emailAddressValidationMessage),
                   ),
                 ],
@@ -155,15 +136,13 @@ class DialogFormDialog extends StackedView<DialogFormDialogModel>
                   widthFactor: 0.4,
                   onPressed: () async {
                     viewModel.getBack();
-                    // await viewModel.login(
-                    //   email: mailController.text,
-                    //   password: passwordController.text,
-                    // );
+                   
                   },
                 ),
                 Custombutton(
                   label: ksSaveButtonText,
                   buttonType: ButtonType.primary,
+                  isLoadign: viewModel.isBusy,
                   widthFactor: 0.3,
                   onPressed: () async {
                     viewModel.validateForm();
@@ -190,9 +169,6 @@ class DialogFormDialog extends StackedView<DialogFormDialogModel>
                       viewModel.getBack();
                     }
 
-                    //   email: mailController.text,
-                    //   password: passwordController.text,
-                    // );
                   },
                 ),
               ],
