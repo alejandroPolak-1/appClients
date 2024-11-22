@@ -12,7 +12,12 @@ class SecureStorageService {
     return _instance;
   }
 
-  final storage = const FlutterSecureStorage();
+
+  final storage = const FlutterSecureStorage(
+      aOptions: AndroidOptions(
+    encryptedSharedPreferences: true,
+  ));
+
   final encrypter = Encrypter(AES(key, mode: AESMode.cbc));
 
   final iv = IV.fromUtf8("e16ce888a20dadb8"); //hardcode
