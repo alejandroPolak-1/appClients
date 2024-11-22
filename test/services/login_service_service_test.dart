@@ -43,8 +43,6 @@ void main() {
           login); // Verifica el objeto Login
     });
 
-
-
     test('should return a Failure when login fails', () async {
       // Configura el stub para el servicio simulado
       when(mockLoginService.postLogin(any))
@@ -60,7 +58,6 @@ void main() {
       expect(result.fold((l) => l, (r) => null),
           expectedFailure); // Aquí estamos extrayendo el valor de Left
     });
-
   });
   tearDown(() => locator.reset());
 }

@@ -816,18 +816,18 @@ class MockClientService extends _i1.Mock implements _i11.ClientService {
           #updateClient,
           [params],
         ),
-        returnValue:
-            _i9.Future<_i3.Either<_i12.Failure, _i13.ConfirmClientResponse>>.value(
-                _FakeEither_1<_i12.Failure, _i13.ConfirmClientResponse>(
+        returnValue: _i9
+            .Future<_i3.Either<_i12.Failure, _i13.ConfirmClientResponse>>.value(
+            _FakeEither_1<_i12.Failure, _i13.ConfirmClientResponse>(
           this,
           Invocation.method(
             #updateClient,
             [params],
           ),
         )),
-        returnValueForMissingStub:
-            _i9.Future<_i3.Either<_i12.Failure, _i13.ConfirmClientResponse>>.value(
-                _FakeEither_1<_i12.Failure, _i13.ConfirmClientResponse>(
+        returnValueForMissingStub: _i9
+            .Future<_i3.Either<_i12.Failure, _i13.ConfirmClientResponse>>.value(
+            _FakeEither_1<_i12.Failure, _i13.ConfirmClientResponse>(
           this,
           Invocation.method(
             #updateClient,
@@ -872,18 +872,18 @@ class MockClientService extends _i1.Mock implements _i11.ClientService {
           #deleteClient,
           [id],
         ),
-        returnValue:
-            _i9.Future<_i3.Either<_i12.Failure, _i13.ConfirmClientResponse>>.value(
-                _FakeEither_1<_i12.Failure, _i13.ConfirmClientResponse>(
+        returnValue: _i9
+            .Future<_i3.Either<_i12.Failure, _i13.ConfirmClientResponse>>.value(
+            _FakeEither_1<_i12.Failure, _i13.ConfirmClientResponse>(
           this,
           Invocation.method(
             #deleteClient,
             [id],
           ),
         )),
-        returnValueForMissingStub:
-            _i9.Future<_i3.Either<_i12.Failure, _i13.ConfirmClientResponse>>.value(
-                _FakeEither_1<_i12.Failure, _i13.ConfirmClientResponse>(
+        returnValueForMissingStub: _i9
+            .Future<_i3.Either<_i12.Failure, _i13.ConfirmClientResponse>>.value(
+            _FakeEither_1<_i12.Failure, _i13.ConfirmClientResponse>(
           this,
           Invocation.method(
             #deleteClient,
