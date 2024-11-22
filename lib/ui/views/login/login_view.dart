@@ -34,7 +34,7 @@ class LoginView extends StackedView<LoginViewModel> with $LoginView {
         children: [
           const Positioned.fill(child: LoginBackground()),
           Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(40.0),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -51,17 +51,17 @@ class LoginView extends StackedView<LoginViewModel> with $LoginView {
                         Center(
                             child: Text(
                           ksLoginTitle,
-                          style: UiStyle.bold( 12 ),
+                          style: UiStyle.bold( 16 ),
                         )),
                         verticalSpaceSmall,
                         TextFormField(
-                          style: UiStyle.base( 12),
+                          style: UiStyle.base(16),
                           controller: mailController,
                           // onChanged: (value) =>
                           //     viewModel.setMailValidationMessage(null),
                           decoration: InputDecoration(
                             labelText: ksLoginLabelMail,
-                            labelStyle: UiStyle.base( 12),
+                            labelStyle: UiStyle.base( 16),
                             errorText: viewModel.firstLogin
                                 ? null
                                 : viewModel.mailValidationMessage,
@@ -69,13 +69,13 @@ class LoginView extends StackedView<LoginViewModel> with $LoginView {
                         ),
                         verticalSpaceSmall,
                         TextFormField(
-                          style: UiStyle.base( 12),
+                          style: UiStyle.base( 16),
                           controller: passwordController,
                           obscureText:
                               viewModel.isObscurePassword ? true : false,
                           decoration: InputDecoration(
                             labelText: ksLoginLabelPassword,
-                            labelStyle: UiStyle.base( 12),
+                            labelStyle: UiStyle.base( 16),
                             errorText: viewModel.firstLogin
                                 ? null
                                 : viewModel.passwordValidationMessage,

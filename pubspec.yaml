@@ -30,15 +30,19 @@ dev_dependencies:
   stacked_generator: ^1.3.3
 
 flutter_launcher_icons:
-  android: "tots_icons"
-  ios: false
+  android: "ic_tots"
+  adaptive_icon_foreground: "assets/images/logo_tots_app.png"
+  adaptive_icon_background: "#a29896"
+  ios: true
   image_path: "assets/images/logo_app.png"
-  min_sdk_android: 21 # android min sdk min:16, default 21
+  min_sdk_android: 30
   web:
     generate: true
-    image_path: "assets/images/logo_app.png"
-    background_color: "#hexcode"
-    theme_color: "#hexcode"
+    image_path: "assets/images/logo_tots_app.png"
+    background_color: "#ffffff"
+    theme_color: "#ffffff"
+    adaptive_icon_background: "#ffffff"
+    adaptive_icon_foreground: "assets/images/logo_tots_app.png"
 
 flutter:
   uses-material-design: true

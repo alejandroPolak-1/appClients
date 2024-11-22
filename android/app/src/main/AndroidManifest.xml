@@ -3,7 +3,7 @@
     <application
         android:label="tots_stacked_app"
         android:name="${applicationName}"
-        android:icon="@mipmap/tots_icons">
+        android:icon="@mipmap/ic_tots">
         <activity
             android:name=".MainActivity"
             android:exported="true"
